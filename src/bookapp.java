@@ -151,6 +151,21 @@ public class bookapp {
                     break;
                 case 5:
                     System.out.println("Delete a book");
+                    System.out.println("Enter the book name: ");
+                    bookName = input.next();
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb", "root", "");
+                        String sql = "DELETE FROM `books` WHERE `bookname` = '" +bookName+"'";
+                        Statement stmt = con.createStatement();
+                        stmt.executeUpdate(sql);
+                        System.out.println("Book deleted successfully.");
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
+
 
                     break;
 
