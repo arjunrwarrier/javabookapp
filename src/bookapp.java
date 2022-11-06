@@ -1,7 +1,10 @@
+import java.sql.*;
 import java.util.Scanner;
 public class bookapp {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        int bookDayCharge;
+        String bookName, bookAuthor, bookLanguage, bookCategory;
 
         while(true){
             System.out.println("Book Management App");
@@ -22,6 +25,36 @@ public class bookapp {
             switch (choice){
                 case 1:
                     System.out.println("Add Books");
+
+                    System.out.println("Enter the Book Name: ");
+                    bookName = input.next();
+                    System.out.println("Enter the Author Name: ");
+                    bookAuthor = input.next();
+                    System.out.println("Enter the Book Language: ");
+                    bookLanguage = input.next();
+                    System.out.println("Enter the Books Category: ");
+                    bookCategory = input.next();
+                    System.out.println("Enter the Books charge per day: ");
+                    bookDayCharge = input.nextInt();
+
+
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb", "root","");
+                        String sql = "INSERT INTO `books`(`bookname`, `author`, `language`, `category`, `charge/day`) VALUES (?,?,?,?,?)";
+                        PreparedStatement stmt = con.prepareStatement(sql);
+                        stmt.setString(1,bookName);
+                        stmt.setString(2,bookAuthor);
+                        stmt.setString(3,bookLanguage);
+                        stmt.setString(4,bookCategory);
+                        stmt.setInt(5,bookDayCharge);
+                        stmt.executeUpdate();
+
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
 
                     break;
 
