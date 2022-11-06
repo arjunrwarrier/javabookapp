@@ -234,6 +234,35 @@ public class bookapp {
                     break;
                 case 8:
                     System.out.println("View books in a specific category");
+                    System.out.println("Enter the category search: ");
+                    bookCategory = input.next();
+
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb", "root", "");
+                        String sql = "SELECT `bookname`, `author`, `language`,`charge/day` FROM `books` WHERE `category` = '"+bookCategory+"'";
+
+
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        while(rs.next()){
+                            String fetchBookName = rs.getString("bookname");
+                            String fetchBookAuthor = rs.getString("author");
+                            String fetchBookLanguage = rs.getString("language");
+                            String fetchBookDayCharge = rs.getString("charge/day");
+
+                            System.out.println("Book Name: "+fetchBookName);
+                            System.out.println("Author : "+fetchBookAuthor);
+                            System.out.println("Book Language : "+fetchBookLanguage);
+                            System.out.println("Books charge/day : "+fetchBookDayCharge+"\n");
+
+                        }
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
+
                     break;
                 case 9:
                     System.out.println("Display the total amount in return date");
