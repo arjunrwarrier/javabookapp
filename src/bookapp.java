@@ -266,6 +266,38 @@ public class bookapp {
                     break;
                 case 9:
                     System.out.println("Display the total amount in return date");
+                    try{
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarydb", "root", "");
+                        String sql = "SELECT i.userid,i.bookid,i.issuedate,i.returndate,DATEDIFF(i.returndate,i.issuedate) AS datediff,DATEDIFF(i.returndate,i.issuedate)*b.`charge/day` AS amount from issue i JOIN books b ON i.bookid = b.id";
+
+                        Statement stmt = con.createStatement();
+                        ResultSet rs = stmt.executeQuery(sql);
+                        System.out.println("----------------------------------------------------------------------------------------------------------------");
+                        while(rs.next()){
+                            String fetchUserId = rs.getString("userid");
+                            String fetchBookId = rs.getString("bookid");
+                            String fetchIssueDate = rs.getString("issuedate");
+                            String fetchReturnDate = rs.getString("returndate");
+                            String fetchDateDiff = rs.getString("datediff");
+                            String fetchAmount = rs.getString("amount");
+
+                            System.out.print("User Id: "+fetchUserId+" | ");
+                            System.out.print(" Book Id : "+fetchBookId+" | ");
+                            System.out.print(" IssueDate : "+fetchIssueDate+" | ");
+                            System.out.print(" ReturnDate : "+fetchReturnDate+" | ");
+                            System.out.print(" DateDiff : "+fetchDateDiff+" | ");
+                            System.out.print(" Amount : "+fetchAmount+" | "+"\n");
+
+                        }
+                        System.out.println("----------------------------------------------------------------------------------------------------------------");
+
+                    }
+                    catch (Exception e){
+                        System.out.println(e);
+                    }
+
+
                     break;
                 case 10:
                     System.out.println("Exited Menu..");
